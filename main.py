@@ -7,22 +7,24 @@
 import sys
 from sample import *
 
-"""
+
 if __name__ == "__main__":
     app = QtWidgets.QApplication([])
     window = QtWidgets.QMainWindow()
     ui = Ui_MainWindow()
     ui.setupUi(window)
 
-    window.
-
     def on_click():
         print('Yo!')
 
+    ui.pushButton.clicked.connect(on_click)
+
     window.show()
     sys.exit(app.exec())
-"""
 
+
+"""
+# This is way to do it with a subclass and static methods. I don't like this was as much. 
 
 class myApp(Ui_MainWindow):
     def __init__(self, window):
@@ -51,3 +53,4 @@ ui = myApp(MainWindow)
 
 MainWindow.show()
 app.exec()
+"""
