@@ -28,11 +28,6 @@ if __name__ == "__main__":
         print(p.pattern)
 
 
-    def getInputText():
-        inText = loadInputFile()
-        return inText
-
-
     def loadInputFile():
         try:
             inFile = open(ui.inputFileText.text(), "r")
@@ -47,7 +42,7 @@ if __name__ == "__main__":
 
     def openOutFile():
         outFilePath: str = ui.outputFileText.text()
-        outText = getInputText()
+        outText = loadInputFile()
         if outFilePath != '':
             outFile = open(outFilePath, "w")
             outFile.write(outText)
