@@ -14,6 +14,7 @@ if __name__ == "__main__":
     ui = Ui_MainWindow()
     ui.setupUi(window)
 
+    # *** default file path for debug purposes. remove in final build ***
     ui.inputFileText.setText(r"C:\project\handpiece_fw\v0.1.0-REL\bitbucket_repo\v0.1.0-REL\log\presence_debug.log")
 
 
@@ -28,11 +29,8 @@ if __name__ == "__main__":
 
 
     def getInputText():
-        print('call loadInputFile')
         inText = loadInputFile()
-        # print("Output text:  " + inText)
-        print('input file loaded')
-        ui.textDisplay.setText(inText)
+        return inText
 
 
     def loadInputFile():
@@ -43,15 +41,16 @@ if __name__ == "__main__":
             return
         text = inFile.read()
         inFile.close()
+        ui.textDisplay.setText(text)
         return text
 
 
     def openOutFile():
         outFilePath: str = ui.outputFileText.text()
+        outText = getInputText()
         if outFilePath != '':
             outFile = open(outFilePath, "w")
-            outFile.write(outFilePath)
-        getInputText()
+            outFile.write(outText)
 
 
     ui.setPatternButton.clicked.connect(setPattern)
