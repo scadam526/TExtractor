@@ -5,8 +5,8 @@
 
 
 import sys
+import re
 from sample import *
-
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication([])
@@ -14,43 +14,49 @@ if __name__ == "__main__":
     ui = Ui_MainWindow()
     ui.setupUi(window)
 
-    def on_click():
-        print('Yo!')
+    ui.inputFileText.setText(r"C:\project\handpiece_fw\v0.1.0-REL\bitbucket_repo\v0.1.0-REL\log\presence_debug.log")
 
-    ui.pushButton.clicked.connect(on_click)
+
+    def setPattern():
+        pattern = ui.pattern.toPlainText()
+        try:
+            p = re.compile(pattern)
+        except re.error:
+            print("Invalid regex pattern")
+            return
+        print(p.pattern)
+
+
+    def getInputText():
+        print('call loadInputFile')
+        inText = loadInputFile()
+        # print("Output text:  " + inText)
+        print('input file loaded')
+        ui.textDisplay.setText(inText)
+
+
+    def loadInputFile():
+        try:
+            inFile = open(ui.inputFileText.text(), "r")
+        except FileExistsError:
+            print('Input file path does not exist')
+            return
+        text = inFile.read()
+        inFile.close()
+        return text
+
+
+    def openOutFile():
+        outFilePath: str = ui.outputFileText.text()
+        if outFilePath != '':
+            outFile = open(outFilePath, "w")
+            outFile.write(outFilePath)
+        getInputText()
+
+
+    ui.setPatternButton.clicked.connect(setPattern)
+    ui.loadInputFile.clicked.connect(loadInputFile)
+    ui.processDataButton.clicked.connect(openOutFile)
 
     window.show()
     sys.exit(app.exec())
-
-
-"""
-# This is way to do it with a subclass and static methods. I don't like this was as much. 
-
-class myApp(Ui_MainWindow):
-    def __init__(self, window):
-        self.setupUi(window)
-        self.pushButton.clicked.connect(self.whenClicked)
-        self.buttonBox.accepted.connect(self.clickOK)
-        self.buttonBox.rejected.connect(self.clickCancel)
-
-    @staticmethod
-    def whenClicked():
-        print('Yo!')
-
-    @staticmethod
-    def clickOK():
-        print('Yo mama!')
-
-    @staticmethod
-    def clickCancel():
-        print('Not yo mama!')
-
-
-app = QtWidgets.QApplication(sys.argv)
-MainWindow = QtWidgets.QMainWindow()
-
-ui = myApp(MainWindow)
-
-MainWindow.show()
-app.exec()
-"""
