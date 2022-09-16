@@ -14,7 +14,9 @@
     App converted to .exe via auto-py-to-exe .
 """
 
-import sys, re, os
+import sys
+import re
+import os
 from TExtractor import *
 
 
@@ -78,7 +80,7 @@ if __name__ == "__main__":
         print(p.pattern)
 
 
-    # ui.previewLog.clicked.connect(previewLog)
+    ui.previewLog.clicked.connect(previewLog)
     # ui.previewData.clicked.connect(previewData)
     # ui.outputDataButton.clicked.connect(outputData)
 
