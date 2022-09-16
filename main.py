@@ -14,9 +14,8 @@
     App converted to .exe via auto-py-to-exe .
 """
 
-import sys
-import re
-from sample import *
+import sys, re, os
+from TExtractor import *
 
 
 if __name__ == "__main__":
@@ -26,8 +25,9 @@ if __name__ == "__main__":
     ui.setupUi(window)
 
     # *** default file path for debug purposes. remove in final build ***
-    ui.inputFileText.setText(r"C:\project\handpiece_fw\v0.1.0-REL\bitbucket_repo\v0.1.0-REL\log\presence_debug.log")
-    ui.outputFileText.setText(r"C:\project\handpiece_fw\v0.1.0-REL\bitbucket_repo\v0.1.0-REL\log\test_log.txt")
+    ui.inputFileText.setText(os.getcwd() + r"/logs/1. right handpiece - long cable - clutch pulled "
+                             r"when hand present.log")
+    ui.outputFileText.setText(os.getcwd() + r"/logs/output_test_log.txt")
 
 
     def previewLog():
@@ -78,9 +78,9 @@ if __name__ == "__main__":
         print(p.pattern)
 
 
-    ui.previewLog.clicked.connect(previewLog)
-    ui.previewData.clicked.connect(previewData)
-    ui.outputDataButton.clicked.connect(outputData)
+    # ui.previewLog.clicked.connect(previewLog)
+    # ui.previewData.clicked.connect(previewData)
+    # ui.outputDataButton.clicked.connect(outputData)
 
     window.show()
     sys.exit(app.exec())
