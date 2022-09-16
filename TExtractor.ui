@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>582</width>
-    <height>684</height>
+    <width>712</width>
+    <height>793</height>
    </rect>
   </property>
   <property name="cursor">
@@ -17,25 +17,12 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QPushButton" name="setPatternButton">
+   <widget class="QPlainTextEdit" name="patternText">
     <property name="geometry">
      <rect>
-      <x>480</x>
+      <x>90</x>
       <y>10</y>
-      <width>75</width>
-      <height>23</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Set Pattern</string>
-    </property>
-   </widget>
-   <widget class="QPlainTextEdit" name="pattern">
-    <property name="geometry">
-     <rect>
-      <x>70</x>
-      <y>10</y>
-      <width>391</width>
+      <width>611</width>
       <height>51</height>
      </rect>
     </property>
@@ -49,9 +36,9 @@
    <widget class="QLineEdit" name="inputFileText">
     <property name="geometry">
      <rect>
-      <x>70</x>
-      <y>70</y>
-      <width>391</width>
+      <x>90</x>
+      <y>100</y>
+      <width>611</width>
       <height>20</height>
      </rect>
     </property>
@@ -60,7 +47,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>70</y>
+      <y>100</y>
       <width>61</width>
       <height>16</height>
      </rect>
@@ -73,7 +60,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>100</y>
+      <y>130</y>
       <width>61</width>
       <height>16</height>
      </rect>
@@ -85,33 +72,33 @@
    <widget class="QLineEdit" name="outputFileText">
     <property name="geometry">
      <rect>
-      <x>70</x>
-      <y>100</y>
-      <width>391</width>
+      <x>90</x>
+      <y>130</y>
+      <width>611</width>
       <height>20</height>
      </rect>
     </property>
    </widget>
-   <widget class="QPushButton" name="loadInputFile">
+   <widget class="QPushButton" name="previewLog">
     <property name="geometry">
      <rect>
-      <x>480</x>
-      <y>70</y>
-      <width>75</width>
-      <height>23</height>
+      <x>190</x>
+      <y>160</y>
+      <width>91</width>
+      <height>31</height>
      </rect>
     </property>
     <property name="text">
-     <string>Load File</string>
+     <string>Preview Log</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="processDataButton">
+   <widget class="QPushButton" name="outputDataButton">
     <property name="geometry">
      <rect>
-      <x>480</x>
-      <y>100</y>
-      <width>75</width>
-      <height>23</height>
+      <x>420</x>
+      <y>160</y>
+      <width>91</width>
+      <height>31</height>
      </rect>
     </property>
     <property name="text">
@@ -122,9 +109,9 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>10</y>
-      <width>61</width>
-      <height>41</height>
+      <y>20</y>
+      <width>81</width>
+      <height>16</height>
      </rect>
     </property>
     <property name="text">
@@ -137,11 +124,52 @@
    <widget class="QTextBrowser" name="textDisplay">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>140</y>
-      <width>541</width>
-      <height>491</height>
+      <x>10</x>
+      <y>200</y>
+      <width>691</width>
+      <height>541</height>
      </rect>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="previewData">
+    <property name="geometry">
+     <rect>
+      <x>310</x>
+      <y>160</y>
+      <width>91</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>8</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Preview Data</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="headerText">
+    <property name="geometry">
+     <rect>
+      <x>90</x>
+      <y>70</y>
+      <width>611</width>
+      <height>20</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_4">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>70</y>
+      <width>61</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Data Header</string>
     </property>
    </widget>
   </widget>
@@ -150,8 +178,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>582</width>
-     <height>20</height>
+     <width>712</width>
+     <height>22</height>
     </rect>
    </property>
   </widget>
@@ -159,7 +187,4 @@
  </widget>
  <resources/>
  <connections/>
- <slots>
-  <slot>whenClicked()</slot>
- </slots>
 </ui>
