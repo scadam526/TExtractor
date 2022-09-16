@@ -30,6 +30,7 @@ if __name__ == "__main__":
     ui.setupUi(window)
 
     # *** default file path for debug purposes. remove in final build ***
+    ui.headerText.setText("Num, Neck, Thumb, Bulb2, Bulb 1")
     ui.patternText.setPlainText(r"ProcessCapacitivePads\(\).{10}(\d+\.\d+).+(\d+\.\d+).+(\d+\.\d+).+(\d+\.\d+)")
     ui.inputFileText.setText(os.getcwd() + r"/logs/1. right handpiece - long cable - clutch pulled "
                              r"when hand present.log")
@@ -57,15 +58,13 @@ if __name__ == "__main__":
         text = inFile.read()
         inFile.close()
         pattern = ui.patternText.toPlainText()
-        ui.textDisplay.setText("")
+        ui.textDisplay.setText(ui.headerText.text())
         try:
             p = re.compile(pattern)
         except re.error:
             print("Invalid regex pattern")
             return
-        #results = re.findall(pattern, text)
-        #print(results)
-        #ui.textDisplay.setText(str(results[0]))
+
         i = 0
         for match in re.finditer(pattern, text):
             cleanList = str(list(match.groups())).replace("'","")
@@ -95,7 +94,7 @@ if __name__ == "__main__":
 
     ui.previewLog.clicked.connect(previewLog)
     ui.previewData.clicked.connect(previewData)
-    # ui.outputDataButton.clicked.connect(outputData)
+    ui.outputDataButton.clicked.connect(outputData)
 
     window.show()
     sys.exit(app.exec())
