@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>947</width>
-    <height>793</height>
+    <width>720</width>
+    <height>816</height>
    </rect>
   </property>
   <property name="cursor">
@@ -22,7 +22,7 @@
      <rect>
       <x>90</x>
       <y>10</y>
-      <width>841</width>
+      <width>611</width>
       <height>51</height>
      </rect>
     </property>
@@ -38,7 +38,7 @@
      <rect>
       <x>90</x>
       <y>100</y>
-      <width>841</width>
+      <width>611</width>
       <height>20</height>
      </rect>
     </property>
@@ -51,11 +51,6 @@
       <width>61</width>
       <height>16</height>
      </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>8</pointsize>
-     </font>
     </property>
     <property name="text">
      <string>Input File</string>
@@ -70,11 +65,6 @@
       <height>16</height>
      </rect>
     </property>
-    <property name="font">
-     <font>
-      <pointsize>8</pointsize>
-     </font>
-    </property>
     <property name="text">
      <string>Output File</string>
     </property>
@@ -84,7 +74,7 @@
      <rect>
       <x>90</x>
       <y>130</y>
-      <width>841</width>
+      <width>611</width>
       <height>20</height>
      </rect>
     </property>
@@ -92,7 +82,7 @@
    <widget class="QPushButton" name="previewLog">
     <property name="geometry">
      <rect>
-      <x>190</x>
+      <x>30</x>
       <y>160</y>
       <width>91</width>
       <height>31</height>
@@ -105,7 +95,7 @@
    <widget class="QPushButton" name="outputDataButton">
     <property name="geometry">
      <rect>
-      <x>420</x>
+      <x>260</x>
       <y>160</y>
       <width>91</width>
       <height>31</height>
@@ -121,13 +111,8 @@
       <x>10</x>
       <y>20</y>
       <width>81</width>
-      <height>31</height>
+      <height>16</height>
      </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>8</pointsize>
-     </font>
     </property>
     <property name="text">
      <string>Regex Pattern</string>
@@ -141,7 +126,7 @@
      <rect>
       <x>10</x>
       <y>200</y>
-      <width>921</width>
+      <width>691</width>
       <height>541</height>
      </rect>
     </property>
@@ -149,7 +134,7 @@
    <widget class="QPushButton" name="previewData">
     <property name="geometry">
      <rect>
-      <x>310</x>
+      <x>150</x>
       <y>160</y>
       <width>91</width>
       <height>31</height>
@@ -157,7 +142,7 @@
     </property>
     <property name="font">
      <font>
-      <pointsize>9</pointsize>
+      <pointsize>8</pointsize>
      </font>
     </property>
     <property name="text">
@@ -169,7 +154,7 @@
      <rect>
       <x>90</x>
       <y>70</y>
-      <width>841</width>
+      <width>611</width>
       <height>20</height>
      </rect>
     </property>
@@ -179,17 +164,25 @@
      <rect>
       <x>10</x>
       <y>70</y>
-      <width>71</width>
+      <width>61</width>
       <height>16</height>
      </rect>
     </property>
-    <property name="font">
-     <font>
-      <pointsize>8</pointsize>
-     </font>
-    </property>
     <property name="text">
      <string>Data Header</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="overwriteFile">
+    <property name="geometry">
+     <rect>
+      <x>380</x>
+      <y>170</y>
+      <width>151</width>
+      <height>18</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Overwrite Output File</string>
     </property>
    </widget>
   </widget>
@@ -198,8 +191,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>947</width>
-     <height>20</height>
+     <width>720</width>
+     <height>22</height>
     </rect>
    </property>
   </widget>

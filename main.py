@@ -16,16 +16,12 @@
 
 # Cap sense values regex pattern: ProcessCapacitivePads\(\).{10}(\d+\.\d+).+(\d+\.\d+).+(\d+\.\d+).+(\d+\.\d+)
 
-# import sys
-# import re
-# import os
-from sys import exit
-from os import getcwd
-from re import compile
-from re import finditer
-from re import error
+import sys
+import re
+import os
 
-# import pandas as pd
+
+# import Qt Designer generated UI code from TExtractor.py
 from TExtractor import *
 
 if __name__ == "__main__":
@@ -33,20 +29,23 @@ if __name__ == "__main__":
     window = QtWidgets.QMainWindow()
     ui = Ui_MainWindow()
     ui.setupUi(window)
+    msg = QtWidgets.QMessageBox()
 
     # *** default file path for debug purposes. remove in final build ***
     ui.headerText.setText("Num, Neck, Thumb, Bulb2, Bulb 1")
     ui.patternText.setPlainText(r"ProcessCapacitivePads\(\).{10}(\d+\.\d+).+(\d+\.\d+).+(\d+\.\d+).+(\d+\.\d+)")
-    ui.inputFileText.setText(getcwd() + r"\logs\1. right handpiece - long cable - clutch pulled "
+    ui.inputFileText.setText(os.getcwd() + r"\logs\1. right handpiece - long cable - clutch pulled "
                                         r"when hand present.log")
-    ui.outputFileText.setText(getcwd() + r"\logs\output_test_log.csv")
+    ui.outputFileText.setText(os.getcwd() + r"\logs\output_test_log.csv")
 
 
     def previewLog():
         try:
             inFile = open(ui.inputFileText.text(), "r")
         except FileExistsError:
-            print('Input file path does not exist')
+            print('ERROR: Input file path does not exist')
+            msg.setText('ERROR: Input file path does not exist')
+            msg.exec()
             return
         text = inFile.read()
         inFile.close()
@@ -60,7 +59,9 @@ if __name__ == "__main__":
         try:
             inFile = open(ui.inputFileText.text(), "r")
         except FileExistsError:
-            print('Input file path does not exist')
+            print('ERROR: Input file path does not exist')
+            msg.setText('ERROR: Input file path does not exist')
+            msg.exec()
             return
         text = inFile.read()
         inFile.close()
@@ -68,21 +69,24 @@ if __name__ == "__main__":
 
         # Compile regex pattern to make sure it is valid.
         try:
-            compile(pattern)
+            re.compile(pattern)
         except error:
-            print("Invalid regex pattern")
+            print("ERROR: Invalid regex pattern")
+            msg.setText("ERROR: Invalid regex pattern")
+            msg.exec()
             return
 
-        # Set first line of output to header. Then for each iteration found trim unwanted characters
+        # Set first line of output to header text. Then for each iteration found trim unwanted characters
         #    and append new line to the string. Return the final string with header.
         output = ui.headerText.text() + chr(13)
-        i = 0
-        for match in finditer(pattern, text):
+        i = 1
+        for match in re.finditer(pattern, text):
             cleanList = str(list(match.groups())).replace("'", "")
             cleanList = cleanList.replace("[", "")
             cleanList = cleanList.replace("]", "")
             output += str(i) + ", " + cleanList + chr(13)
-            i += 1
+        i += 1
+        inFile.close()
         return output
 
 
@@ -95,10 +99,35 @@ if __name__ == "__main__":
 
     def outputData():
         previewData()
-        outFile = open(ui.outputFileText.text(), "w")
-        outFile.write(getData())
+        # If overwrite file is checked then output whether exists or not. Will only fail if file is locked.
+        if ui.overwriteFile.isChecked():
+            try:
+                outFile = open(ui.outputFileText.text(), "w")
+                outFile.write(getData())
+            except PermissionError:
+                print("ERROR: Cannot access output file.")
+                msg.setText("ERROR: Cannot access output file.")
+                msg.exec()
+                return
+
+        # If file already exists, do not overwrite existing file.
+        else:
+            try:
+                outFile = open(ui.outputFileText.text(), "x")
+                outFile.write(getData())
+            except PermissionError:
+                print("ERROR: Cannot access output file.")
+                msg.setText("ERROR: Cannot access output file.")
+                msg.exec()
+                return
+            except FileExistsError:
+                print("ERROR: Output file already exists.")
+                msg.setText("ERROR: Output file already exists.")
+                msg.exec()
+                return
 
 
+    # Connect buttons to functions.
     ui.previewLog.clicked.connect(previewLog)
     ui.previewData.clicked.connect(previewData)
     ui.outputDataButton.clicked.connect(outputData)
