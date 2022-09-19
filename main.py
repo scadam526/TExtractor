@@ -22,7 +22,7 @@ import os
 
 
 # import Qt Designer generated UI code from TExtractor.py
-from TExtractor import *
+from TExtractor import QtWidgets, Ui_MainWindow
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication([])
@@ -133,4 +133,4 @@ if __name__ == "__main__":
     ui.outputDataButton.clicked.connect(outputData)
 
     window.show()
-    exit(app.exec())
+    sys.exit(app.exec())
