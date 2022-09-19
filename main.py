@@ -12,16 +12,14 @@
         Open console: False
 
     App converted to .exe via auto-py-to-exe.
-
-    Cap sense values regex pattern: ProcessCapacitivePads\(\).{10}(\d+\.\d+).+(\d+\.\d+).+(\d+\.\d+).+(\d+\.\d+)
-
 """
+
+# Cap sense values regex pattern: ProcessCapacitivePads\(\).{10}(\d+\.\d+).+(\d+\.\d+).+(\d+\.\d+).+(\d+\.\d+)
 
 import sys
 import re
 import os
 from TExtractor import *
-
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication([])
@@ -33,7 +31,7 @@ if __name__ == "__main__":
     ui.headerText.setText("Num, Neck, Thumb, Bulb2, Bulb 1")
     ui.patternText.setPlainText(r"ProcessCapacitivePads\(\).{10}(\d+\.\d+).+(\d+\.\d+).+(\d+\.\d+).+(\d+\.\d+)")
     ui.inputFileText.setText(os.getcwd() + r"/logs/1. right handpiece - long cable - clutch pulled "
-                             r"when hand present.log")
+                                           r"when hand present.log")
     ui.outputFileText.setText(os.getcwd() + r"/logs/output_test_log.txt")
 
 
@@ -50,6 +48,7 @@ if __name__ == "__main__":
 
 
     def previewData():
+        scrollbar = ui.textDisplay.verticalScrollBar()
         try:
             inFile = open(ui.inputFileText.text(), "r")
         except FileExistsError:
@@ -67,29 +66,44 @@ if __name__ == "__main__":
 
         i = 0
         for match in re.finditer(pattern, text):
-            cleanList = str(list(match.groups())).replace("'","")
-            cleanList = cleanList.replace("[","")
-            cleanList = cleanList.replace("]","")
-            ui.textDisplay.append(str(i) +", " + cleanList)
+            cleanList = str(list(match.groups())).replace("'", "")
+            cleanList = cleanList.replace("[", "")
+            cleanList = cleanList.replace("]", "")
+            ui.textDisplay.append(str(i) + ", " + cleanList)
             i += 1
+        scrollbar.setValue(scrollbar.minimum())
+
 
     def outputData():
-        outFilePath: str = ui.outputFileText.text()
-        outText = loadInputFile()
-        if outFilePath != '':
-            outFile = open(outFilePath, "w")
-            outFile.write(outText)
-
-
-    def procData(p, t):
-        numGroups = p.count('(') - p.count(r'\(')
-        pattern = ui.pattern.toPlainText()
+        scrollbar = ui.textDisplay.verticalScrollBar()
+        try:
+            inFile = open(ui.inputFileText.text(), "r")
+        except FileExistsError:
+            print('Input file path does not exist')
+            return
+        text = inFile.read()
+        inFile.close()
+        pattern = ui.patternText.toPlainText()
+        ui.textDisplay.setText(ui.headerText.text())
         try:
             p = re.compile(pattern)
         except re.error:
             print("Invalid regex pattern")
             return
-        print(p.pattern)
+
+        i = 0
+        output = ui.headerText.text() + chr(13)
+        for match in re.finditer(pattern, text):
+            cleanList = str(list(match.groups())).replace("'", "")
+            cleanList = cleanList.replace("[", "")
+            cleanList = cleanList.replace("]", "")
+            output += str(i) + ", " + cleanList + chr(13)
+            i += 1
+        ui.textDisplay.setText(output)
+
+        outFile = open(ui.outputFileText.text(), "w")
+        outFile.write(output)
+        scrollbar.setValue(scrollbar.minimum())
 
 
     ui.previewLog.clicked.connect(previewLog)
