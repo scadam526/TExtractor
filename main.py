@@ -16,9 +16,16 @@
 
 # Cap sense values regex pattern: ProcessCapacitivePads\(\).{10}(\d+\.\d+).+(\d+\.\d+).+(\d+\.\d+).+(\d+\.\d+)
 
-import sys
-import re
-import os
+# import sys
+# import re
+# import os
+from sys import exit
+from os import getcwd
+from re import compile
+from re import finditer
+from re import error
+
+# import pandas as pd
 from TExtractor import *
 
 if __name__ == "__main__":
@@ -30,9 +37,9 @@ if __name__ == "__main__":
     # *** default file path for debug purposes. remove in final build ***
     ui.headerText.setText("Num, Neck, Thumb, Bulb2, Bulb 1")
     ui.patternText.setPlainText(r"ProcessCapacitivePads\(\).{10}(\d+\.\d+).+(\d+\.\d+).+(\d+\.\d+).+(\d+\.\d+)")
-    ui.inputFileText.setText(os.getcwd() + r"/logs/1. right handpiece - long cable - clutch pulled "
-                                           r"when hand present.log")
-    ui.outputFileText.setText(os.getcwd() + r"/logs/output_test_log.csv")
+    ui.inputFileText.setText(getcwd() + r"\logs\1. right handpiece - long cable - clutch pulled "
+                                        r"when hand present.log")
+    ui.outputFileText.setText(getcwd() + r"\logs\output_test_log.csv")
 
 
     def previewLog():
@@ -47,8 +54,9 @@ if __name__ == "__main__":
         return
 
 
-    def previewData():
-        scrollbar = ui.textDisplay.verticalScrollBar()
+    def getData():
+
+        # Open input file and load it to a string then close file. Load input pattern to string.
         try:
             inFile = open(ui.inputFileText.text(), "r")
         except FileExistsError:
@@ -57,53 +65,38 @@ if __name__ == "__main__":
         text = inFile.read()
         inFile.close()
         pattern = ui.patternText.toPlainText()
-        ui.textDisplay.setText(ui.headerText.text())
+
+        # Compile regex pattern to make sure it is valid.
         try:
-            p = re.compile(pattern)
-        except re.error:
+            compile(pattern)
+        except error:
             print("Invalid regex pattern")
             return
 
-        i = 0
-        for match in re.finditer(pattern, text):
-            cleanList = str(list(match.groups())).replace("'", "")
-            cleanList = cleanList.replace("[", "")
-            cleanList = cleanList.replace("]", "")
-            ui.textDisplay.append(str(i) + ", " + cleanList)
-            i += 1
-        scrollbar.setValue(scrollbar.minimum())
-
-
-    def outputData():
-        scrollbar = ui.textDisplay.verticalScrollBar()
-        try:
-            inFile = open(ui.inputFileText.text(), "r")
-        except FileExistsError:
-            print('Input file path does not exist')
-            return
-        text = inFile.read()
-        inFile.close()
-        pattern = ui.patternText.toPlainText()
-        ui.textDisplay.setText(ui.headerText.text())
-        try:
-            p = re.compile(pattern)
-        except re.error:
-            print("Invalid regex pattern")
-            return
-
-        i = 0
+        # Set first line of output to header. Then for each iteration found trim unwanted characters
+        #    and append new line to the string. Return the final string with header.
         output = ui.headerText.text() + chr(13)
-        for match in re.finditer(pattern, text):
+        i = 0
+        for match in finditer(pattern, text):
             cleanList = str(list(match.groups())).replace("'", "")
             cleanList = cleanList.replace("[", "")
             cleanList = cleanList.replace("]", "")
             output += str(i) + ", " + cleanList + chr(13)
             i += 1
-        ui.textDisplay.setText(output)
+        return output
 
-        outFile = open(ui.outputFileText.text(), "w")
-        outFile.write(output)
+
+    def previewData():
+        # Instantiate the vertical scrollbar, write output data to text window, scroll back to top.
+        scrollbar = ui.textDisplay.verticalScrollBar()
+        ui.textDisplay.setText(getData())
         scrollbar.setValue(scrollbar.minimum())
+
+
+    def outputData():
+        previewData()
+        outFile = open(ui.outputFileText.text(), "w")
+        outFile.write(getData())
 
 
     ui.previewLog.clicked.connect(previewLog)
@@ -111,4 +104,4 @@ if __name__ == "__main__":
     ui.outputDataButton.clicked.connect(outputData)
 
     window.show()
-    sys.exit(app.exec())
+    exit(app.exec())
