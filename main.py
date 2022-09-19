@@ -32,7 +32,7 @@ if __name__ == "__main__":
     ui.patternText.setPlainText(r"ProcessCapacitivePads\(\).{10}(\d+\.\d+).+(\d+\.\d+).+(\d+\.\d+).+(\d+\.\d+)")
     ui.inputFileText.setText(os.getcwd() + r"/logs/1. right handpiece - long cable - clutch pulled "
                                            r"when hand present.log")
-    ui.outputFileText.setText(os.getcwd() + r"/logs/output_test_log.txt")
+    ui.outputFileText.setText(os.getcwd() + r"/logs/output_test_log.csv")
 
 
     def previewLog():
