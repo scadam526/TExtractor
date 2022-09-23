@@ -20,7 +20,6 @@ import sys
 import re
 import os
 
-
 # import Qt Designer generated UI code from TExtractor.py
 from TExtractor import QtWidgets, Ui_MainWindow
 
@@ -35,7 +34,7 @@ if __name__ == "__main__":
     ui.headerText.setText("Num, Neck, Thumb, Bulb2, Bulb 1")
     ui.patternText.setPlainText(r"ProcessCapacitivePads\(\).{10}(\d+\.\d+).+(\d+\.\d+).+(\d+\.\d+).+(\d+\.\d+)")
     ui.inputFileText.setText(os.getcwd() + r"\logs\1. right handpiece - long cable - clutch pulled "
-                                        r"when hand present.log")
+                                           r"when hand present.log")
     ui.outputFileText.setText(os.getcwd() + r"\logs\output_test_log.csv")
 
 
@@ -85,7 +84,7 @@ if __name__ == "__main__":
             cleanList = cleanList.replace("[", "")
             cleanList = cleanList.replace("]", "")
             output += str(i) + ", " + cleanList + chr(13)
-        i += 1
+            i += 1
         inFile.close()
         return output
 
