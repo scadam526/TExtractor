@@ -78,15 +78,22 @@ if __name__ == "__main__":
         # Set first line of output to header text. Then for each iteration found trim unwanted characters
         #    and append new line to the string. Return the final string with header.
         output = ui.headerText.text() + chr(13)
-        i = 1
-        for match in re.finditer(pattern, text):
-            cleanList = str(list(match.groups())).replace("'", "")
-            cleanList = cleanList.replace("[", "")
-            cleanList = cleanList.replace("]", "")
-            output += str(i) + ", " + cleanList + chr(13)
-            i += 1
-        inFile.close()
-        return output
+        # i = 1
+        # for match in re.finditer(pattern, text):
+        #     cleanList = str(list(match.groups())).replace("'", "")
+        #     cleanList = cleanList.replace("[", "")
+        #     cleanList = cleanList.replace("]", "")
+        #     output += str(i) + ", " + cleanList + chr(13)
+        #     i += 1
+        # return output
+
+        output = ''
+        for line in text.splitlines(1):
+            match = p.search(logText)
+            output += str(match.group(1, 2, 3, 4) if match else '').replace("'", "").replace(r")", "").replace(r"(",
+                                                                                                               "") + '\n'
+            text = text.split('\n', 2)[-1]
+        return output.strip()
 
 
     def previewData():
