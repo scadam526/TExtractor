@@ -62,38 +62,47 @@ if __name__ == "__main__":
             msg.setText('ERROR: Input file path does not exist')
             msg.exec()
             return
-        text = inFile.read()
+        text = inFile.read().split('\n')
         inFile.close()
-        pattern = ui.patternText.toPlainText()
+        pattern1 = ui.patternText.toPlainText()
+        pattern2 = r"Triggering at.+(\d+\.\d+).+(\d+\.\d+).+(\d+\.\d+).+(\d+\.\d+).\[(.+)\]"
 
         # Compile regex pattern to make sure it is valid.
         try:
-            re.compile(pattern)
+            p1 = re.compile(pattern1)
+            p2 = re.compile(pattern2)
         except error:
             print("ERROR: Invalid regex pattern")
             msg.setText("ERROR: Invalid regex pattern")
             msg.exec()
             return
 
-        # Set first line of output to header text. Then for each iteration found trim unwanted characters
-        #    and append new line to the string. Return the final string with header.
-        output = ui.headerText.text() + chr(13)
-        # i = 1
-        # for match in re.finditer(pattern, text):
-        #     cleanList = str(list(match.groups())).replace("'", "")
-        #     cleanList = cleanList.replace("[", "")
-        #     cleanList = cleanList.replace("]", "")
-        #     output += str(i) + ", " + cleanList + chr(13)
-        #     i += 1
-        # return output
-
-        output = ''
-        for line in text.splitlines(1):
-            match = p.search(logText)
-            output += str(match.group(1, 2, 3, 4) if match else '').replace("'", "").replace(r")", "").replace(r"(",
-                                                                                                               "") + '\n'
-            text = text.split('\n', 2)[-1]
-        return output.strip()
+        result = ['', '']
+        output = 'Data 1, Num, Neck, Thumb, Bulb2, Bulb1, , Data 2, Num, Neck Trig, Thumb Trig, Bulb2 Trig,'\
+                 'Bulb1 Trig, Trig Type\n'
+        i = 0
+        for line in text:
+            match1 = p1.search(line)
+            match2 = p2.search(line)
+            if match1:
+                result[0] += 'Cap Sense,' + str(i) + ', ' + str(match1.group(1, 2, 3, 4))
+                result[0] = result[0].replace("'", "").replace(r")", "").replace(r"(", "") + '\n'
+            elif match2:
+                result[1] += ', Trigger,' + str(i) + ', ' + str(match2.group(1, 2, 3, 4, 5)).replace("'", "").replace(
+                    r")", "").replace(r"(", "") + '\n'
+            i += 1
+        result[0] = result[0].splitlines()
+        result[1] = result[1].splitlines()
+        i = 0
+        while i < len(result[1]) - 1:
+            output += result[0][i] + ', ' + result[1][i + 1] + '\n'
+            i += 1
+        i = len(result[1]) - 1
+        while i < len(result[0]):
+            output += str(result[0][i]) + '\n'
+            i += 1
+        # print(output.count('\n'), len(txt[0]))
+        return output
 
 
     def previewData():
