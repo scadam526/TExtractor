@@ -33,9 +33,9 @@ if __name__ == "__main__":
     # *** default file path for debug purposes. remove in final build ***
     ui.headerText.setText("Num, Neck, Thumb, Bulb2, Bulb 1")
     ui.patternText.setPlainText(r"ProcessCapacitivePads\(\).{10}(\d+\.\d+).+(\d+\.\d+).+(\d+\.\d+).+(\d+\.\d+)")
-    ui.inputFileText.setText(os.getcwd() + r"\logs\1. right handpiece - long cable - clutch pulled "
+    ui.inputFileText.setText(os.getcwd() + r"/logs/1. right handpiece - long cable - clutch pulled "
                                            r"when hand present.log")
-    ui.outputFileText.setText(os.getcwd() + r"\logs\output_test_log.csv")
+    ui.outputFileText.setText(os.getcwd() + r"/logs/output_test_log.csv")
 
 
     def previewLog():
@@ -44,6 +44,11 @@ if __name__ == "__main__":
         except FileExistsError:
             print('ERROR: Input file path does not exist')
             msg.setText('ERROR: Input file path does not exist')
+            msg.exec()
+            return
+        except FileNotFoundError:
+            print('ERROR: Input file not found.')
+            msg.setText('ERROR: Input file not found.')
             msg.exec()
             return
         text = inFile.read()
@@ -85,10 +90,10 @@ if __name__ == "__main__":
             match1 = p1.search(line)
             match2 = p2.search(line)
             if match1:
-                result[0] += 'Cap Sense,' + str(i) + ', ' + str(match1.group(1, 2, 3, 4))
+                result[0] += 'Cap Sense, ' + str(i) + ', ' + str(match1.group(1, 2, 3, 4))
                 result[0] = result[0].replace("'", "").replace(r")", "").replace(r"(", "") + '\n'
             elif match2:
-                result[1] += ', Trigger,' + str(i) + ', ' + str(match2.group(1, 2, 3, 4, 5)).replace("'", "").replace(
+                result[1] += ', Trigger, ' + str(i) + ', ' + str(match2.group(1, 2, 3, 4, 5)).replace("'", "").replace(
                     r")", "").replace(r"(", "") + '\n'
             i += 1
         result[0] = result[0].splitlines()
